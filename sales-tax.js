@@ -30,32 +30,25 @@ function calculateSalesTax(salesData, taxRates) {
 
   var sales = {};
 
-  // console.log(salesData[2]);
-
-  // for (var i = 0; i < salesData.length; i++) {
   for (var i in salesData) {
-    // sales[i.name] = {};
-    if (sales[salesData[i].name]) {
-      sales[salesData[i].name].totalSales += salesData[i].sales.reduce(add, 0);
-      sales[salesData[i].name].totalTaxes += salesData[i].sales.reduce(add, 0) * taxRates[salesData[i].province];
-    } else {
-      sales[salesData[i].name] = {};
-      // sales[salesData[i].name].totalSales = salesData[i].sales.reduce((x, y) => x + y); //this also works
-      sales[salesData[i].name].totalSales = salesData[i].sales.reduce(add, 0);
-      // console.log(sales[salesData[i].name].totalSales);
-      // console.log(salesData[i].sales);
-      sales[salesData[i].name].totalTaxes = salesData[i].sales.reduce(add, 0) * taxRates[salesData[i].province];
 
-
+    if (!sales[salesData[i].name]) {
+      sales[salesData[i].name] = {totalSales: 0, totalTaxes: 0};
     }
+
+    // sales[salesData[i].name].totalSales += salesData[i].sales.reduce((x, y) => x + y); //this also works
+    sales[salesData[i].name].totalSales += salesData[i].sales.reduce(add, 0);
+    sales[salesData[i].name].totalTaxes += salesData[i].sales.reduce(add, 0) * taxRates[salesData[i].province];
 
   }
 
-  console.log(sales);
+  return sales;
 
 }
 
 var results = calculateSalesTax(companySalesData, salesTaxRates);
+
+console.log(results);
 
 /* Expected Results:
 {
